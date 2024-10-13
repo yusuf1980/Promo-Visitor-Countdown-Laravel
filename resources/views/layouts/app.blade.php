@@ -29,11 +29,17 @@
                 @else
                 <div class="navbar-nav-scroll">
                     <ul class="navbar-nav bd-navbar-nav flex-row">
+                    <li class="nav-item">
+                            <a href="{{ route('social-proofs.index') }}" class="nav-link">Sosial Proof</a>
+                        </li>
                         <li class="nav-item">
                             <a href="{{ route('promos.index') }}" class="nav-link">Promo</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('visitor.index') }}" class="nav-link">Visitor</a>
+                            <a href="{{ route('visitor.index') }}" class="nav-link">Pengunjung</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('products.index') }}" class="nav-link">Produk</a>
                         </li>
                     </ul>
                 </div>
