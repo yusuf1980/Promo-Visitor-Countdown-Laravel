@@ -20,8 +20,10 @@
                                     <tr class="text-center">
                                         <th>NO</th>
                                         <th>TANGGAL</th>
-                                        <th>DISCOUNT</th>
+                                        <th>DISKON</th>
                                         <th>STATUS</th>
+                                        <th>KODE</th>
+                                        <th>PRODUK</th>
                                         <th>FINISH TIME</th>
                                         <th>DIBUAT OLEH</th>
                                         <th>ACTION</th>
@@ -36,6 +38,8 @@
                                             <td>{{ $item->date }}</td>
                                             <td class="text-center">{{ $item->discount }}</td>
                                             <td class="text-center">{{ $item->status?'Aktif':'Tidak Aktif' }}</td>
+                                            <td class="text-center">{{ $item->code }}</td>
+                                            <td class="text-center">{{ $item->product }}</td>
                                             <td class="text-center">{{ $item->finish_time }}</td>
                                             <td>{{ $item->user->name }}</td>
                                             <td class="text-center">

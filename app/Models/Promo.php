@@ -17,7 +17,9 @@ class Promo extends Model
         'status',
         'discount',
         'date',
-        'finish_time'
+        'finish_time',
+        'code',
+        'product',
     ];
 
     public function visitors(): HasMany

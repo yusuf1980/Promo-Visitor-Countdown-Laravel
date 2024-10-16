@@ -56,6 +56,22 @@
                                     'item' => 6
                                 ])
                             </div>
+                            <div class="col-md-6">
+                                @include('components.text', [
+                                    'title' => 'Kode Promo',
+                                    'name' => 'code',
+                                    'type' => 'text',
+                                    'item' => ''
+                                ])
+                            </div>
+                            <div class="col-md-6">
+                                @include('components.select', [
+                                    'title' => 'Produk',
+                                    'name' => 'product',
+                                    'data' => $products,
+                                    'item' => 0,
+                                ])
+                            </div>
                             <div class="col-md-12 py-4 text-center">
                                 <button type="submit" class="btn btn-success btn-block">Simpan</button>
                             </div>

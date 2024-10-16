@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Promo;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,7 @@ class PromoController extends Controller
      */
     public function index()
     {
-        $promos = Promo::orderBy('id', 'desc')->paginate(10);
+        $promos = Promo::orderBy('updated_at', 'desc')->orderBy('id', 'desc')->paginate(10);
         return view('admin.promo.index', compact('promos'));
     }
 
@@ -21,7 +22,8 @@ class PromoController extends Controller
      */
     public function create()
     {
-        return view('admin.promo.create');
+        $products = Product::orderBy('name', 'ASC')->pluck('name', 'name');
+        return view('admin.promo.create', compact('products'));
     }
 
     /**
@@ -33,11 +35,13 @@ class PromoController extends Controller
             'date'=>['required', 'date_format:d-m-Y'],
             // 'status' => ['required', 'boolean'],
             'discount' => ['required'],
-            'finish_time' => ['required']
+            'finish_time' => ['required'],
+            'code' => 'required|string|max:255',
+            'product' => 'required|string|max:255',
         ]);
 
         if($request->status) {
-            foreach(Promo::orderBy('id', 'desc')->limit(5)->get() as $promo) {
+            foreach(Promo::where('product', $request->product)->orderBy('id', 'desc')->limit(5)->get() as $promo) {
                 $promo->status = false;
                 $promo->save();
             }
@@ -48,7 +52,9 @@ class PromoController extends Controller
             'status' => $request->status,
             'discount' => $request->discount,
             'finish_time' => $request->finish_time,
-            'user_id' => auth()->user()->id
+            'user_id' => auth()->user()->id,
+            'code' => $request->code,
+            'product' => $request->product,
         ]);
 
         toastr()->success('Promo berhasil ditambahkan');
@@ -70,7 +76,8 @@ class PromoController extends Controller
     public function edit(string $id)
     {
         $item = Promo::findOrFail($id);
-        return view('admin.promo.edit', compact('item'));
+        $products = Product::orderBy('name', 'ASC')->pluck('name', 'name');
+        return view('admin.promo.edit', compact(['item', 'products']));
     }
 
     /**
@@ -82,23 +89,27 @@ class PromoController extends Controller
             'date'=>['required', 'date_format:d-m-Y'],
             // 'status' => ['required', 'boolean'],
             'discount' => ['required'],
-            'finish_time' => ['required']
+            'finish_time' => ['required'],
+            'code' => 'required|string|max:255',
+            'product' => 'required|string|max:255',
         ]);
 
-        $item = Promo::findOrFail($id);
-
-        if($request->status) {
-            foreach(Promo::orderBy('id', 'desc')->limit(5)->get() as $promo) {
+        if($request->status == 1) {
+            foreach(Promo::where('product', $request->product)->orderBy('id', 'desc')->limit(5)->get() as $promo) {
                 $promo->status = false;
                 $promo->save();
             }
         }
+
+        $item = Promo::findOrFail($id);
 
         $item->update([
             'date' => $request->date,
             'status' => $request->status,
             'discount' => $request->discount,
             'finish_time' => $request->finish_time,
+            'code' => $request->code,
+            'product' => $request->product,
         ]);
 
         toastr()->success('Promo berhasil diperbarui');
